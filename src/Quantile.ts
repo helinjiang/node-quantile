@@ -24,7 +24,8 @@ export default class Quantile {
     // 暂时先只支持一种
     this.type = 'R-7';
 
-    this.orderBy = opts?.orderBy || 'none';
+    // 默认进行升序排序
+    this.orderBy = opts?.orderBy || 'asc';
   }
 
   /**
@@ -56,7 +57,7 @@ export default class Quantile {
     const positionFloor = Math.floor(position);
 
     // 排序一下数组
-    const sortedArr = this.arr;
+    const sortedArr = this.getSortedArr();
 
     // 如果是最后一个元素，则直接返回
     if (positionFloor >= sortedArr.length) {
@@ -65,5 +66,24 @@ export default class Quantile {
 
     // R-7: 计算公式
     return sortedArr[positionFloor - 1] + (position - positionFloor) * (sortedArr[positionFloor] - sortedArr[positionFloor - 1]);
+  }
+
+  public getSortedArr(): number[] {
+    // 升序
+    if (this.orderBy === 'asc') {
+      return this.arr.sort((a, b) => {
+        return a - b;
+      });
+    }
+
+    // 降序
+    if (this.orderBy === 'desc') {
+      return this.arr.sort((a, b) => {
+        return b - a;
+      });
+    }
+
+    // 不处理
+    return this.arr;
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "node-quantile",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Calculate quantile use node.js",
   "main": "lib/index.js",
   "scripts": {

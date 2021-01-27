@@ -58,6 +58,11 @@ export default class Quantile {
     // 排序一下数组
     const sortedArr = this.arr;
 
+    // 如果是最后一个元素，则直接返回
+    if (positionFloor >= sortedArr.length) {
+      return sortedArr[positionFloor - 1];
+    }
+
     // R-7: 计算公式
     return sortedArr[positionFloor - 1] + (position - positionFloor) * (sortedArr[positionFloor] - sortedArr[positionFloor - 1]);
   }

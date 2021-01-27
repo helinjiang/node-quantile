@@ -1,3 +1,5 @@
+import { getNum } from './util';
+
 /**
  * 类型，参考 https://en.wikipedia.org/wiki/Quantile
  */
@@ -48,8 +50,9 @@ export default class Quantile {
   /**
    * 计算出 p 分位的值
    * @param p
+   * @param decimals
    */
-  public figure(p: number): number {
+  public figure(p: number, decimals?: number): number {
     // 获取指定 p 分位的位置，从1开始计数
     const position = this.getPosition(p);
 
@@ -61,11 +64,13 @@ export default class Quantile {
 
     // 如果是最后一个元素，则直接返回
     if (positionFloor >= sortedArr.length) {
-      return sortedArr[positionFloor - 1];
+      return getNum(sortedArr[positionFloor - 1], decimals);
     }
 
     // R-7: 计算公式
-    return sortedArr[positionFloor - 1] + (position - positionFloor) * (sortedArr[positionFloor] - sortedArr[positionFloor - 1]);
+    const xh = sortedArr[positionFloor - 1];
+    const xh1 = sortedArr[positionFloor];
+    return getNum(xh + ((position - positionFloor) * (xh1 - xh)), decimals);
   }
 
   public getSortedArr(): number[] {
